@@ -3,9 +3,9 @@ project(tic_tac_toc C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(tic_tac_toc src/main.c src/domain/grid/Grid.h src/domain/grid/Grid.c)
+add_executable(tic_tac_toc src/main.c src/domain/grid/Grid.h src/domain/grid/Grid.c src/exposition/cli/CLI.c src/exposition/cli/CLI.h)
 
 
 add_executable(test
         tests/domain/grid/GridTest.c
-        src/domain/grid/Grid.h src/domain/grid/Grid.c)
+        src/domain/grid/Grid.h src/domain/grid/Grid.c src/exposition/cli/CLI.c src/exposition/cli/CLI.h)
