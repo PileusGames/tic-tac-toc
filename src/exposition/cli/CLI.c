@@ -6,6 +6,8 @@
 #include "CLI.h"
 #include "stdbool.h"
 #include "stdio.h"
+#include "../../../lib/jsmn.h"
+// https://github.com/zserge/jsmn
 
 Mark charToMark(char c);
 char markToChar(Mark m);
@@ -33,9 +35,9 @@ CLI start(CLI cli) {
 
 void printGrid(Grid g) {
     printf(" %c | %c | %c \n"
-           "---+---+---\n"
+            "---+---+---\n"
            " %c | %c | %c \n"
-           "---+---+---\n"
+            "---+---+---\n"
            " %c | %c | %c \n",
            markToChar(g.marks[0][0]), markToChar(g.marks[0][1]), markToChar(g.marks[0][2]),
            markToChar(g.marks[1][0]), markToChar(g.marks[1][1]), markToChar(g.marks[1][2]),

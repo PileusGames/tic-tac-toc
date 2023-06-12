@@ -28,7 +28,7 @@ static char * test_should_create_new_empty_grid() {
             free(msg);
         }
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_gridsAreEquals_should_return_true() {
@@ -48,7 +48,7 @@ static char * test_gridsAreEquals_should_return_true() {
             }
     };
     mu_assert("error, grids should be equal", gridsAreEquals(a,b));
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_gridsAreEquals_should_return_false() {
@@ -68,7 +68,7 @@ static char * test_gridsAreEquals_should_return_false() {
             }
     };
     mu_assert("error, grids should be different", !gridsAreEquals(a,b));
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_X_first_line() {
@@ -80,7 +80,7 @@ static char * test_should_get_winner_X_first_line() {
             }
     };
     mu_assert("error, X should be the winner at first line", getWinner(grid) == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_O_first_line() {
@@ -92,7 +92,7 @@ static char * test_should_get_winner_O_first_line() {
             }
     };
     mu_assert("error, O should be the winner at first line", getWinner(grid) == O);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_X_second_line() {
@@ -104,7 +104,7 @@ static char * test_should_get_winner_X_second_line() {
             }
     };
     mu_assert("error, X should be the winner at second line", getWinner(grid) == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_X_third_line() {
@@ -116,7 +116,7 @@ static char * test_should_get_winner_X_third_line() {
             }
     };
     mu_assert("error, X should be the winner at third line", getWinner(grid) == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_X_first_column() {
@@ -128,7 +128,7 @@ static char * test_should_get_winner_X_first_column() {
             }
     };
     mu_assert("error, X should be the winner at first column", getWinner(grid) == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_X_second_column() {
@@ -140,7 +140,7 @@ static char * test_should_get_winner_X_second_column() {
             }
     };
     mu_assert("error, X should be the winner at second column", getWinner(grid) == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_X_third_column() {
@@ -152,7 +152,7 @@ static char * test_should_get_winner_X_third_column() {
             }
     };
     mu_assert("error, X should be the winner at third column", getWinner(grid) == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_X_diagonal_up_left_corner_to_down_right_corner() {
@@ -164,7 +164,7 @@ static char * test_should_get_winner_X_diagonal_up_left_corner_to_down_right_cor
             }
     };
     mu_assert("error, X should be the winner at diagonal up left to down right", getWinner(grid) == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_get_winner_X_diagonal_up_right_corner_to_down_left_corner() {
@@ -176,7 +176,7 @@ static char * test_should_get_winner_X_diagonal_up_right_corner_to_down_left_cor
             }
     };
     mu_assert("error, X should be the winner at diagonal up right to down left", getWinner(grid) == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_should_place_X_at_0_0() {
@@ -184,7 +184,7 @@ static char * test_should_place_X_at_0_0() {
     Grid updatedGrid = placeOnGrid(empty, X, 0, 0);
     mu_assert("error, X should have been placed at [0,0]", updatedGrid.marks[0][0] == X);
     mu_assert("error, old grid should not have been updated", empty.marks[0][0] == _);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_place_outside_grid_should_do_nothing() {
@@ -197,7 +197,7 @@ static char * test_place_outside_grid_should_do_nothing() {
     };
     Grid updatedGrid = placeOnGrid(grid, X, -1, 0);
     mu_assert("error, place outside should do nothing", gridsAreEquals(grid, updatedGrid));
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_place_EmptyMark_should_do_nothing() {
@@ -210,7 +210,7 @@ static char * test_place_EmptyMark_should_do_nothing() {
     };
     Grid updatedGrid = placeOnGrid(grid, _, 0, 0);
     mu_assert("error, place EmptyMark should do nothing", updatedGrid.marks[0][0] == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_place_on_already_played_space_should_do_nothing() {
@@ -223,7 +223,7 @@ static char * test_place_on_already_played_space_should_do_nothing() {
     };
     Grid updatedGrid = placeOnGrid(grid, O, 1, 1);
     mu_assert("error, place on other mark should do nothing", updatedGrid.marks[1][1] == X);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char * test_return_true_when_grid_is_full() {
@@ -235,7 +235,7 @@ static char * test_return_true_when_grid_is_full() {
             }
     };
     mu_assert("error, grid should be full", gridIsFull(grid));
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static char* test_return_false_when_grid_is_not_full() {
@@ -247,7 +247,7 @@ static char* test_return_false_when_grid_is_not_full() {
             }
     };
     mu_assert("error, grid should not be full", !gridIsFull(grid));
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 
@@ -271,7 +271,7 @@ static char * all_tests() {
     mu_run_test(test_return_true_when_grid_is_full);
     mu_run_test(test_return_false_when_grid_is_not_full);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int main(int argc, char **argv) {
@@ -284,5 +284,5 @@ int main(int argc, char **argv) {
     }
     printf("Tests run: %d\n", tests_run);
 
-    return result != 0;
+    return result != EXIT_SUCCESS;
 }
