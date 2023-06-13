@@ -8,13 +8,10 @@
 #include "string.h"
 #include "../../minunit.h"
 #define JSMN_HEADER
-#include "../../../lib/jsmn.h"
+#include "../../../src/exposition/json/json.h"
 #include "../../../src/exposition/dto/Init.h"
 
-
-
 int tests_run = 0;
-
 
 static char* test_isTokenEquals() {
     jsmn_parser p;

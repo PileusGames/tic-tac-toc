@@ -7,11 +7,11 @@
 #include <string.h>
 
 #define JSMN_HEADER
-#include "../../../lib/jsmn.h"
+#include "../json/json.h"
 #include "Init.h"
 
 
-
+// TODO move to CLI
 InitParseResult KO(enum ParseErr err);
 InitParseResult OK(Init init);
 
@@ -33,16 +33,6 @@ InitParseResult fromJson(const char* json) {
 
     Init init = {2};
     return OK(init);
-}
-
-bool isTokenEquals(const char *json, jsmntok_t tok, const char *b) {
-    int8_t size = (int8_t)(tok.end - tok.start);
-    if(size != strlen(b)) return false;
-
-    for(int8_t i = 0; i < size; i++) {
-        if(*(json + tok.start + i) != *(b+i)) return false;
-    }
-    return true;
 }
 
 

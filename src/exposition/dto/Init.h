@@ -7,11 +7,18 @@
 #define TIC_TAC_TOC_INIT_H
 
 #include "stdint.h"
-#include "../../../lib/jsmn.h"
 #include "stdbool.h"
 
 // {"init": {"players" : 2}}
+/*
+{
+  "init": {
+    "players" : 2
+  }
+}
 
+{\n "init": {\n "players" : 2\n }\n}
+ */
 typedef struct Init {
     int8_t players;
 } Init;
@@ -33,6 +40,5 @@ typedef struct InitParseResult {
 } InitParseResult;
 
 InitParseResult fromJson(const char* json);
-bool isTokenEquals(const char *json, jsmntok_t tok, const char *b);
 
 #endif //TIC_TAC_TOC_INIT_H

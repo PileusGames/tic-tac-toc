@@ -3,11 +3,10 @@
 // Created by Theo OMNES on 11/06/2023.
 //
 
+#include <stdlib.h>
 #include "CLI.h"
-#include "stdbool.h"
 #include "stdio.h"
-#include "../../../lib/jsmn.h"
-// https://github.com/zserge/jsmn
+#include "string.h"
 
 Mark charToMark(char c);
 char markToChar(Mark m);
@@ -32,6 +31,54 @@ CLI start(CLI cli) {
 
     return start(nextTurn);
 }
+
+
+InitParseResult init(FILE* stream) {
+    char* request = readJson(stream);
+    InitParseResult result = fromJson(request);
+
+    free(request);
+    return result;
+}
+
+char* readJson(FILE* stream) {
+    rewind(stream);
+    char* request = malloc(MAX_INPUT_SIZE + 1);
+
+    char* line = malloc(MAX_LINE_SIZE + 1);;
+    int8_t opened, closed;
+
+    fgets(request, MAX_LINE_SIZE, stream);
+    opened = countCharInString('{', request);
+    closed = countCharInString('}', request);
+
+    while (opened < 1 || closed < opened) {
+        fgets(line, MAX_LINE_SIZE, stream);
+        char* tmp = concat(request, line);
+        free(request);
+        request = tmp;
+        opened = countCharInString('{', request);
+        closed = countCharInString('}', request);
+    }
+
+    free(line);
+    return request;
+}
+
+char* concat(char* a, char* b) {
+    char* new = malloc(strlen(a) + strlen(b) + 1);
+    strcat(strcat(new, a), b);
+    return new;
+}
+
+int8_t countCharInString(char c, const char* string) {
+    int8_t i, count;
+    for(i = 0, count = 0; string[i]; i+=1) {
+        if(string[i] == c) count += 1;
+    }
+    return count;
+}
+
 
 void printGrid(Grid g) {
     printf(" %c | %c | %c \n"
