@@ -5,8 +5,6 @@
 
 
 int main(int argc, char* argv[]) {
-    printf("Tic Tac Toc\n");
-
     //Grid grid = emptyGrid();
     //CLI cli = newCLI(grid);
 
