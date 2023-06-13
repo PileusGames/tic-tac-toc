@@ -7,10 +7,12 @@
 int main(int argc, char* argv[]) {
     printf("Tic Tac Toc\n");
 
-    Grid grid = emptyGrid();
-    CLI cli = newCLI(grid);
+    //Grid grid = emptyGrid();
+    //CLI cli = newCLI(grid);
 
-    start(cli);
+    InitParseResult initResult = init(stdin);
+
+    printf("players: %d\n", initResult.init.players);
 
     return 0;
 }
