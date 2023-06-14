@@ -12,6 +12,8 @@ Mark charToMark(char c);
 char markToChar(Mark m);
 void printGrid(Grid g);
 
+char *getJsonDisplay(Grid grid);
+
 CLI newCLI(Grid grid) {
     CLI cli = {grid};
     return cli;
@@ -114,18 +116,64 @@ const char* const zoneFormat = "        {\n"
                                "          \"height\": 100\n"
                                "        }";
 
+const char* const displaysFormat = "\n"
+                                   "      \"width\": \"300\",\n"
+                                   "      \"height\": \"300\",\n"
+                                   "      \"content\": [\n"
+                                   "        {\n"
+                                   "          \"tag\": \"style\",\n"
+                                   "          \"content\": \"line{stroke:black;stroke-width:4;}\"\n"
+                                   "        },\n"
+                                   "        {\n"
+                                   "          \"tag\": \"line\",\n"
+                                   "          \"x1\": \"0\",\n"
+                                   "          \"y1\": \"100\",\n"
+                                   "          \"x2\": \"300\",\n"
+                                   "          \"y2\": \"100\"\n"
+                                   "        },\n"
+                                   "        {\n"
+                                   "          \"tag\": \"line\",\n"
+                                   "          \"x1\": \"100\",\n"
+                                   "          \"y1\": \"0\",\n"
+                                   "          \"x2\": \"100\",\n"
+                                   "          \"y2\": \"300\"\n"
+                                   "        },\n"
+                                   "        {\n"
+                                   "          \"tag\": \"line\",\n"
+                                   "          \"x1\": \"0\",\n"
+                                   "          \"y1\": \"200\",\n"
+                                   "          \"x2\": \"300\",\n"
+                                   "          \"y2\": \"200\"\n"
+                                   "        },\n"
+                                   "        {\n"
+                                   "          \"tag\": \"line\",\n"
+                                   "          \"x1\": \"200\",\n"
+                                   "          \"y1\": \"0\",\n"
+                                   "          \"x2\": \"200\",\n"
+                                   "          \"y2\": \"300\"\n"
+                                   "        }\n"
+                                   "      ]%s";
+
 char* getInstructionForGrid(Grid grid) {
     char* instruction = malloc(MAX_INSTRUCTION_SIZE);
+    char* display = getJsonDisplay(grid);
     char* action = getJsonAction(grid);
     sprintf(instruction, instructionFormat,
-            "**display", "**display",
+            display, display,
             action,
             getScoreJson(getWinner(grid)),
             boolToString(isGameOver(grid))
     );
 
+    free(display);
     free(action);
     return instruction;
+}
+
+char* getJsonDisplay(Grid grid) {
+    char* display = malloc(1900);
+    snprintf(display, 1900, displaysFormat, "");
+    return display;
 }
 
 
