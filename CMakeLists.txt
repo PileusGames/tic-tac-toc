@@ -34,12 +34,12 @@ add_executable(test_jsmn
 add_test(NAME test_jsmn COMMAND test_jsmn)
 
 add_executable(test_init
-        tests/exposition/init/InitTest.c
+        tests/exposition/InitTest.c
         src/exposition/dto/Init.c lib/jsmn.c)
 add_test(NAME test_init COMMAND test_init)
 
 add_executable(test_cli
-        tests/exposition/cli/CliTest.c
+        tests/exposition/CliTest.c
         src/exposition/cli/CLI.c
         src/domain/grid/Grid.c
         src/exposition/dto/Init.c

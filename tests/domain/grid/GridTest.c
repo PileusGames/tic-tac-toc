@@ -5,13 +5,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "string.h"
 #include "../../minunit.h"
 #include "../../../src/domain/grid/Grid.h"
 
 int tests_run = 0;
 
 static char * test_should_create_new_empty_grid() {
-    struct Grid empty = {
+    struct Grid empty = {_,
             {
                     {_,_,_},
                     {_,_,_},
@@ -32,7 +33,7 @@ static char * test_should_create_new_empty_grid() {
 }
 
 static char * test_gridsAreEquals_should_return_true() {
-    Grid a = {
+    Grid a = {_,
             {
                     {X,O,_},
                     {_,O,_},
@@ -40,7 +41,7 @@ static char * test_gridsAreEquals_should_return_true() {
             }
     };
 
-    Grid b = {
+    Grid b = {_,
             {
                     {X,O,_},
                     {_,O,_},
@@ -52,7 +53,7 @@ static char * test_gridsAreEquals_should_return_true() {
 }
 
 static char * test_gridsAreEquals_should_return_false() {
-    Grid a = {
+    Grid a = {_,
             {
                     {_,O,_},
                     {_,_,_},
@@ -60,7 +61,7 @@ static char * test_gridsAreEquals_should_return_false() {
             }
     };
 
-    Grid b = {
+    Grid b = {_,
             {
                     {_,X,_},
                     {_,_,_},
@@ -72,7 +73,7 @@ static char * test_gridsAreEquals_should_return_false() {
 }
 
 static char * test_should_get_winner_X_first_line() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {X,X,X},
                     {_,_,_},
@@ -84,7 +85,7 @@ static char * test_should_get_winner_X_first_line() {
 }
 
 static char * test_should_get_winner_O_first_line() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {O,O,O},
                     {_,_,_},
@@ -96,7 +97,7 @@ static char * test_should_get_winner_O_first_line() {
 }
 
 static char * test_should_get_winner_X_second_line() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {_,_,_},
                     {X,X,X},
@@ -108,7 +109,7 @@ static char * test_should_get_winner_X_second_line() {
 }
 
 static char * test_should_get_winner_X_third_line() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {_,_,_},
                     {_,_,_},
@@ -120,7 +121,7 @@ static char * test_should_get_winner_X_third_line() {
 }
 
 static char * test_should_get_winner_X_first_column() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {X,_,_},
                     {X,_,_},
@@ -132,7 +133,7 @@ static char * test_should_get_winner_X_first_column() {
 }
 
 static char * test_should_get_winner_X_second_column() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {_,X,_},
                     {_,X,_},
@@ -144,7 +145,7 @@ static char * test_should_get_winner_X_second_column() {
 }
 
 static char * test_should_get_winner_X_third_column() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {_,_,X},
                     {_,_,X},
@@ -156,7 +157,7 @@ static char * test_should_get_winner_X_third_column() {
 }
 
 static char * test_should_get_winner_X_diagonal_up_left_corner_to_down_right_corner() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {X,_,_},
                     {_,X,_},
@@ -168,7 +169,7 @@ static char * test_should_get_winner_X_diagonal_up_left_corner_to_down_right_cor
 }
 
 static char * test_should_get_winner_X_diagonal_up_right_corner_to_down_left_corner() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {_,_,X},
                     {_,X,_},
@@ -188,7 +189,7 @@ static char * test_should_place_X_at_0_0() {
 }
 
 static char * test_place_outside_grid_should_do_nothing() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {X,_,_},
                     {_,X,_},
@@ -201,7 +202,7 @@ static char * test_place_outside_grid_should_do_nothing() {
 }
 
 static char * test_place_EmptyMark_should_do_nothing() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {X,_,_},
                     {_,X,_},
@@ -214,7 +215,7 @@ static char * test_place_EmptyMark_should_do_nothing() {
 }
 
 static char * test_place_on_already_played_space_should_do_nothing() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {X,_,_},
                     {_,X,_},
@@ -227,7 +228,7 @@ static char * test_place_on_already_played_space_should_do_nothing() {
 }
 
 static char * test_return_true_when_grid_is_full() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {X,O,X},
                     {O,X,O},
@@ -239,7 +240,7 @@ static char * test_return_true_when_grid_is_full() {
 }
 
 static char* test_return_false_when_grid_is_not_full() {
-    Grid grid = {
+    Grid grid = {_,
             {
                     {X,O,X},
                     {O,_,O},
@@ -250,6 +251,27 @@ static char* test_return_false_when_grid_is_not_full() {
     return EXIT_SUCCESS;
 }
 
+static char* should_get_game_is_over_with_winner() {
+    Grid gridWithXWinner = {_,{
+                         {X,X,X},
+                         {O,_,_},
+                         {O,_,O},
+                 }};
+
+    mu_assert("error, game should be over", isGameOver(gridWithXWinner));
+    return EXIT_SUCCESS;
+}
+
+static char* should_get_game_is_over_with_full_grid() {
+    Grid fullGrid = {_,{
+        {X,O,X},
+        {O,X,O},
+        {O,X,O},
+        }};
+
+    mu_assert("error, game should be over", isGameOver(fullGrid));
+    return EXIT_SUCCESS;
+}
 
 static char * all_tests() {
     mu_run_test(test_should_create_new_empty_grid);
@@ -270,6 +292,8 @@ static char * all_tests() {
     mu_run_test(test_place_on_already_played_space_should_do_nothing);
     mu_run_test(test_return_true_when_grid_is_full);
     mu_run_test(test_return_false_when_grid_is_not_full);
+    mu_run_test(should_get_game_is_over_with_winner);
+    mu_run_test(should_get_game_is_over_with_full_grid);
 
     return EXIT_SUCCESS;
 }

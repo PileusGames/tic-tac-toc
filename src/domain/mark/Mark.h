@@ -8,8 +8,8 @@
 
 enum Mark {
     _,
-    X,
-    O
+    X = 1, // Player 1
+    O = 2 // Player 2
 };
 
 typedef enum Mark Mark;

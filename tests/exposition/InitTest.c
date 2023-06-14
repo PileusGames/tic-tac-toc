@@ -6,10 +6,10 @@
 #include <stdlib.h>
 #include <printf.h>
 #include "string.h"
-#include "../../minunit.h"
+#include "../minunit.h"
 #define JSMN_HEADER
-#include "../../../src/exposition/json/json.h"
-#include "../../../src/exposition/dto/Init.h"
+#include "../../src/exposition/json/json.h"
+#include "../../src/exposition/dto/Init.h"
 
 int tests_run = 0;
 

@@ -13,6 +13,7 @@ bool isTheWinner(Grid grid, enum Mark mark);
 
 Grid emptyGrid() {
     Grid new = {
+            X,
         {
             {_,_,_},
             {_,_,_},
@@ -73,4 +74,8 @@ bool gridIsFull(Grid grid) {
         }
     }
     return true;
+}
+
+bool isGameOver(Grid grid) {
+    return getWinner(grid) || gridIsFull(grid);
 }
