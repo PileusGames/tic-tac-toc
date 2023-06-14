@@ -13,12 +13,13 @@
     "requested_actions":[self.current_action],
     "game_state":{
         "scores": scores,
-        "game_over":game_over
+        "game_over": game_over
     }
 }
  */
 
 const char* instructionToFormat();
+const char* getGameOverBooleanString(Grid grid);
 
 char* getInstructionForGrid(Grid grid) {
     char* instruction = malloc(MAX_INSTRUCTION_SIZE);
@@ -26,7 +27,7 @@ char* getInstructionForGrid(Grid grid) {
             "**display", "**display",
             "self.current_action",
             "scores",
-            "game_over"
+            getGameOverBooleanString(grid)
             );
     return instruction;
 }
@@ -37,7 +38,15 @@ const char* instructionToFormat() {
            "    \"requested_actions\":[%s],\n"
            "    \"game_state\":{\n"
            "        \"scores\": %s,\n"
-           "        \"game_over\":%s\n"
+           "        \"game_over\": %s\n"
            "    }\n"
            "}";
+}
+
+const char* getGameOverBooleanString(Grid grid) {
+    bool winnerExists = getWinner(grid) != _;
+    bool gameIsOver = winnerExists || gridIsFull(grid);
+
+    if (gameIsOver) return "true";
+    else return "false";
 }

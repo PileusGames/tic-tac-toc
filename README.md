@@ -10,6 +10,7 @@
 cmake ./CMakeLists.txt 
 make all
 ```
+Vous compilerez l'exécutable du jeu, ainsi que les executables de tests.
 
 ### Tester
 ```shell
