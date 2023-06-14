@@ -19,7 +19,8 @@ add_executable(tic_tac_toc
         src/domain/grid/Grid.c
         src/exposition/cli/CLI.c
         src/exposition/dto/Init.c
-        lib/jsmn.c)
+        lib/jsmn.c
+        src/exposition/dto/Instruction.c)
 
 # --------
 
@@ -42,5 +43,5 @@ add_executable(test_cli
         src/exposition/cli/CLI.c
         src/domain/grid/Grid.c
         src/exposition/dto/Init.c
-        lib/jsmn.c)
+        lib/jsmn.c src/exposition/dto/Instruction.h)
 add_test(NAME test_cli COMMAND test_cli)

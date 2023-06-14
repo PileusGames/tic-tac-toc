@@ -67,8 +67,7 @@ char* readJson(FILE* stream) {
 
 char* concat(char* a, char* b) {
     char* new = malloc(strlen(a) + strlen(b) + 1);
-    strcat(strcat(new, a), b);
-    return new;
+    return strcat(strcat(new, a), b);;
 }
 
 int8_t countCharInString(char c, const char* string) {
