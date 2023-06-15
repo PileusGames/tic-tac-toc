@@ -68,7 +68,7 @@ static char* should_get_score_when_O_is_winner() {
 }
 
 static char* should_get_score_when_no_winner() {
-    mu_assert("error, should be [0,0] when no winner", strcmp("[0,0]", getScoreJson(_)) == 0);
+    mu_assert("error, should be [0,0] when no winner", strcmp("[0,0]", getScoreJson(EMPTY)) == 0);
 
     return EXIT_SUCCESS;
 }

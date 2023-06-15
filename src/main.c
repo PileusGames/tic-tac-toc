@@ -5,13 +5,12 @@
 
 
 int main(int argc, char* argv[]) {
-    Grid grid = emptyGrid();
-    //CLI cli = newCLI(grid);
+    Grid grid = emptyGrid(X);
+    CLI cli = newCLI(grid);
 
     InitParseResult initResult = init(stdin);
 
-    if(initResult.error == NO_ERROR) printf("%s", getInstructionForGrid(grid));
+    if(initResult.error == NO_ERROR) start(cli);
     else printf("ERROR: %d\n", initResult.error);
-
     return 0;
 }

@@ -16,7 +16,7 @@ typedef struct Grid {
     Mark marks[3][3];
 } Grid;
 
-Grid emptyGrid();
+Grid emptyGrid(Mark startPlayer);
 bool gridsAreEquals(Grid a, Grid b);
 Mark getWinner(Grid grid);
 Grid placeOnGrid(Grid grid, Mark mark, int8_t x, int8_t y);

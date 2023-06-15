@@ -11,13 +11,13 @@ bool isTheWinner(Grid grid, enum Mark mark);
 // --- Private functions
 
 
-Grid emptyGrid() {
+Grid emptyGrid(Mark startPlayer) {
     Grid new = {
-            X,
+            startPlayer,
         {
-            {_,_,_},
-            {_,_,_},
-            {_,_,_}
+            {EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY}
         }
     };
 
@@ -36,7 +36,7 @@ bool gridsAreEquals(Grid a, Grid b) {
 Mark getWinner(Grid grid) {
     if(isTheWinner(grid, X)) return X;
     if(isTheWinner(grid, O)) return O;
-    return _;
+    return EMPTY;
 }
 
 bool isTheWinner(Grid g, Mark mark) {
@@ -59,9 +59,9 @@ bool isTheWinner(Grid g, Mark mark) {
 }
 
 Grid placeOnGrid(Grid grid, Mark mark, int8_t x, int8_t y) {
-    if(mark == _) return grid;
+    if(mark == EMPTY) return grid;
     if(x < 0 || x > 2 || y < 0 || y > 2) return grid;
-    if(grid.marks[x][y] != _) return grid;
+    if(grid.marks[x][y] != EMPTY) return grid;
 
     grid.marks[x][y] = mark;
     return grid;
@@ -70,7 +70,7 @@ Grid placeOnGrid(Grid grid, Mark mark, int8_t x, int8_t y) {
 bool gridIsFull(Grid grid) {
     for(int x = 0; x < 3; x ++) {
         for(int y = 0; y < 3; y ++) {
-            if(grid.marks[x][y] == _) return false;
+            if(grid.marks[x][y] == EMPTY) return false;
         }
     }
     return true;

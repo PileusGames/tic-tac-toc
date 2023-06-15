@@ -14,13 +14,18 @@ void printGrid(Grid g);
 
 char *getJsonDisplay(Grid grid);
 
+char *getJsonMarksDisplayFromGrid(Grid grid);
+char *getJsonMarkDisplayForMarkAtPosition(Mark mark, int8_t x, int8_t y);
+
 CLI newCLI(Grid grid) {
     CLI cli = {grid};
     return cli;
 }
 
 CLI start(CLI cli) {
-    printGrid(cli.grid);
+    char* instruction = getInstructionForGrid(cli.grid);
+    fputs(instruction, stdout);
+
     int8_t x = -1;
     int8_t y = -1;
     char m = 0;
@@ -29,7 +34,7 @@ CLI start(CLI cli) {
 
     Grid g = placeOnGrid(cli.grid, charToMark(m), x, y);
     CLI nextTurn = {g};
-    if(gridIsFull(g) || getWinner(g) != _) return nextTurn;
+    if(isGameOver(g)) return nextTurn;
 
     return start(nextTurn);
 }
@@ -68,16 +73,15 @@ char* readJson(FILE* stream) {
 }
 
 char* concat(char* a, char* b) {
-    size_t sizeA = 0, sizeB = 0;
-    if(a != NULL) sizeA = strlen(a);
-    if(b != NULL) sizeB = strlen(b);
+    if(a == NULL) a = "";
+    if(b == NULL) b = "";
+    size_t sizeA = strlen(a);
+    size_t sizeB = strlen(b);
     char* new = malloc( sizeA+ sizeB + 1);
-    return strcat(strcat(new, a), b);;
+    return strcat(strcat(new, a), b);
 }
 
 void append(char** base, char* toAppend) {
-    if(base == NULL || toAppend == NULL) return;
-
     char* old = *base;
     char* new = concat(*base, toAppend);
 
@@ -102,19 +106,21 @@ const char * const instructionFormat =   "{\n"
                                          "        \"game_over\": %s\n"
                                          "    }\n"
                                          "}";
+char* getInstructionForGrid(Grid grid) {
+    char* instruction = malloc(MAX_INSTRUCTION_SIZE);
+    char* display = getJsonDisplay(grid);
+    char* action = getJsonAction(grid);
+    sprintf(instruction, instructionFormat,
+            display, display,
+            action,
+            getScoreJson(getWinner(grid)),
+            boolToString(isGameOver(grid))
+    );
 
-const char* const actionFormat = "{\n"
-                                 "      \"type\": \"CLICK\",\n"
-                                 "      \"player\": %d,\n"
-                                 "      \"zones\": [%s]\n"
-                                 "    }";
-
-const char* const zoneFormat = "        {\n"
-                               "          \"x\": %d,\n"
-                               "          \"y\": %d,\n"
-                               "          \"width\": 100,\n"
-                               "          \"height\": 100\n"
-                               "        }";
+    free(display);
+    free(action);
+    return instruction;
+}
 
 const char* const displaysFormat = "\n"
                                    "      \"width\": \"300\",\n"
@@ -153,27 +159,49 @@ const char* const displaysFormat = "\n"
                                    "          \"y2\": \"300\"\n"
                                    "        }\n"
                                    "      ]%s";
-
-char* getInstructionForGrid(Grid grid) {
-    char* instruction = malloc(MAX_INSTRUCTION_SIZE);
-    char* display = getJsonDisplay(grid);
-    char* action = getJsonAction(grid);
-    sprintf(instruction, instructionFormat,
-            display, display,
-            action,
-            getScoreJson(getWinner(grid)),
-            boolToString(isGameOver(grid))
-    );
-
-    free(display);
-    free(action);
-    return instruction;
-}
-
 char* getJsonDisplay(Grid grid) {
     char* display = malloc(1900);
-    snprintf(display, 1900, displaysFormat, "");
+    char* marks = getJsonMarksDisplayFromGrid(grid);
+    snprintf(display, 1900, displaysFormat, marks);
+
+    free(marks);
     return display;
+}
+
+const char* const markDisplayJsonFormat = ",\n"
+                                           "        {\n"
+                                           "          \"tag\": \"circle\",\n"
+                                           "          \"cx\": \"%d\",\n"
+                                           "          \"cy\": \"%d\",\n"
+                                           "          \"r\": \"33\",\n"
+                                           "          \"fill\": \"%s\"\n"
+                                           "        }";
+char *getJsonMarksDisplayFromGrid(Grid grid) {
+    char* json = NULL;
+    for(int8_t x = 0; x < 3; x += 1) {
+        for(int8_t y = 0; y < 3; y += 1) {
+            if(!grid.marks[y][x]) continue;
+
+            char* markJson = getJsonMarkDisplayForMarkAtPosition(grid.marks[y][x], x, y);
+            append(&json, markJson);
+        }
+    }
+    return json;
+}
+
+char *getJsonMarkDisplayForMarkAtPosition(Mark mark, int8_t x, int8_t y) {
+    char* json = malloc(150);
+    strcpy(json,"");
+
+    if(mark == EMPTY) return json;
+
+    const char* const color = mark == X ? "blue" : "red";
+    snprintf(json, 150, markDisplayJsonFormat,
+             (int) ((0.5+x) * 100),
+             (int) ((0.5+y) * 100),
+             color);
+
+    return json;
 }
 
 
@@ -191,6 +219,11 @@ const char* getScoreJson(Mark winner) {
     }
 }
 
+const char* const actionFormat = "{\n"
+                                 "      \"type\": \"CLICK\",\n"
+                                 "      \"player\": %d,\n"
+                                 "      \"zones\": [%s]\n"
+                                 "    }";
 char* getJsonAction(Grid grid) {
     char* action = malloc(MAX_INSTRUCTION_SIZE);
     char* zones = getJsonZones(grid);
@@ -207,7 +240,7 @@ char* getJsonZones(Grid grid) {
 
     for(int8_t x = 0; x < 3; x += 1) {
         for(int8_t y = 0; y < 3; y +=1) {
-            if(grid.marks[x][y] != _) continue;
+            if(grid.marks[y][x] != EMPTY) continue;
 
             char* zone = getJsonZone(x, y);
             append(&zones, zone);
@@ -220,12 +253,17 @@ char* getJsonZones(Grid grid) {
     return zones;
 }
 
+const char* const zoneFormat = "        {\n"
+                               "          \"x\": %d,\n"
+                               "          \"y\": %d,\n"
+                               "          \"width\": 100,\n"
+                               "          \"height\": 100\n"
+                               "        }";
 char* getJsonZone(int8_t x, int8_t y) {
     char* zone = malloc(128);
     sprintf(zone, zoneFormat, x * 100, y * 100);
     return zone;
 }
-
 
 
 
@@ -250,13 +288,13 @@ Mark charToMark(char c) {
     switch (c) {
         case 'X': return X;
         case 'O': return O;
-        default: return _;
+        default: return EMPTY;
     }
 }
 
 char markToChar(Mark m) {
     switch (m) {
-        case _: return ' ';
+        case EMPTY: return ' ';
         case X: return 'X';
         case O: return 'O';
     }

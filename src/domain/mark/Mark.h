@@ -7,7 +7,7 @@
 #define TIC_TAC_TOC_MARK_H
 
 enum Mark {
-    _,
+    EMPTY = 0,
     X = 1, // Player 1
     O = 2 // Player 2
 };
