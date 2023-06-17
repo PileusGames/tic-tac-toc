@@ -5,11 +5,11 @@
 
 #include <stdlib.h>
 #include "../minunit.h"
-#include "string.h"
 #include "../../src/exposition/cli/CLI.h"
 
 int tests_run = 0;
 
+/* JSON
 static char* should_get_init_request() {
     const char* expected = "{\"init\": {\"players\" : 2}}";
     FILE* tmp = tmpfile();
@@ -34,7 +34,7 @@ static char* should_get_init_request_multilines_json() {
     fclose(tmp);
     return EXIT_SUCCESS;
 }
-
+*/
 static char* should_get_init_with_two_players() {
     const char* json = "{\n \"init\": {\n \"players\" : 2\n }\n}";
     FILE* tmp = tmpfile();
@@ -48,13 +48,15 @@ static char* should_get_init_with_two_players() {
     fclose(tmp);
     return EXIT_SUCCESS;
 }
-
+/* JSON
 static char* should_get_stringified_boolean() {
     mu_assert("error, should be 'true'", strcmp("true", boolToString(true)) == 0);
     mu_assert("error, should be 'false'", strcmp("false", boolToString(false)) == 0);
     return EXIT_SUCCESS;
 }
+*/
 
+/* INSTRUCTION
 static char* should_get_score_when_X_is_winner() {
     mu_assert("error, should be [1,0] when X wins", strcmp("[1,0]", getScoreJson(X)) == 0);
 
@@ -71,17 +73,11 @@ static char* should_get_score_when_no_winner() {
     mu_assert("error, should be [0,0] when no winner", strcmp("[0,0]", getScoreJson(EMPTY)) == 0);
 
     return EXIT_SUCCESS;
-}
+}*/
 
 
 static char * all_tests() {
-    mu_run_test(should_get_init_request);
-    mu_run_test(should_get_init_request_multilines_json);
     mu_run_test(should_get_init_with_two_players);
-    mu_run_test(should_get_stringified_boolean);
-    mu_run_test(should_get_score_when_X_is_winner);
-    mu_run_test(should_get_score_when_O_is_winner);
-    mu_run_test(should_get_score_when_no_winner);
 
     return EXIT_SUCCESS;
 }

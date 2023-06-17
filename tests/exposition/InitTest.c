@@ -23,10 +23,10 @@ static char* test_isTokenEquals() {
     const char* s = "{\"init\": {\"players\" : 2}}";
     jsmn_parse(&p, s, strlen(s), t, 5);
 
-    mu_assert("error, t[1] should be 'init'", isTokenEquals(s, t[1], "init"));
+    mu_assert("error, t[1] should be 'init'", isTokenEqualsString(s, t[1], "init"));
 
-    mu_assert("error, t[1] should not be 'inzt'", !isTokenEquals(s, t[1], "inzt"));
-    mu_assert("error, t[1] should not be 'a'", !isTokenEquals(s, t[1], "a"));
+    mu_assert("error, t[1] should not be 'inzt'", !isTokenEqualsString(s, t[1], "inzt"));
+    mu_assert("error, t[1] should not be 'a'", !isTokenEqualsString(s, t[1], "a"));
 
     return EXIT_SUCCESS;
 }

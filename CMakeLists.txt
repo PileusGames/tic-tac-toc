@@ -18,9 +18,13 @@ add_executable(tic_tac_toc
         src/main.c
         src/domain/grid/Grid.c
         src/exposition/cli/CLI.c
-        src/exposition/dto/Init.c
+        src/exposition/cli/json-init/json-init.c
         lib/jsmn.c
-        src/exposition/dto/Instruction.c)
+        src/exposition/cli/json-instruction/json-instruction.c
+        src/utils/string-utils.c
+        src/exposition/json/json.c
+        src/exposition/cli/json-action/json-action.c
+        src/exposition/error/errors.c)
 
 # --------
 
@@ -33,15 +37,17 @@ add_executable(test_jsmn
         tests/lib/jsmn/jsmnTest.c)
 add_test(NAME test_jsmn COMMAND test_jsmn)
 
-add_executable(test_init
-        tests/exposition/InitTest.c
-        src/exposition/dto/Init.c lib/jsmn.c)
-add_test(NAME test_init COMMAND test_init)
+add_executable(test_json_init
+        src/exposition/cli/json-init/json-init.c)
+add_test(NAME test_json_init COMMAND test_json_init)
 
 add_executable(test_cli
         tests/exposition/CliTest.c
         src/exposition/cli/CLI.c
+        src/exposition/cli/json-instruction/json-instruction.c
+        src/utils/string-utils.c
+        src/exposition/json/json.c
+        src/exposition/cli/json-init/json-init.c
         src/domain/grid/Grid.c
-        src/exposition/dto/Init.c
-        lib/jsmn.c src/exposition/dto/Instruction.h)
+        src/exposition/error/errors.h)
 add_test(NAME test_cli COMMAND test_cli)

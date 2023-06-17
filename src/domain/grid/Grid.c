@@ -79,3 +79,10 @@ bool gridIsFull(Grid grid) {
 bool isGameOver(Grid grid) {
     return getWinner(grid) || gridIsFull(grid);
 }
+
+Grid switchPlayer(Grid grid) {
+    if(grid.currentPlayer == EMPTY) return grid;
+    Mark nextPlayer = grid.currentPlayer == X ? O : X;
+    grid.currentPlayer = nextPlayer;
+    return grid;
+}

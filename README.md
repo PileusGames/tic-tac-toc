@@ -3,7 +3,7 @@
 
 ![tic-tac-toc_robot_gif](https://media.giphy.com/media/3oriNKQe0D6uQVjcIM/giphy.gif)
 
-## Démarer
+## Démarrer
 ### Construire
 
 ```shell

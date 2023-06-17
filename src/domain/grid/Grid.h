@@ -22,5 +22,6 @@ Mark getWinner(Grid grid);
 Grid placeOnGrid(Grid grid, Mark mark, int8_t x, int8_t y);
 bool gridIsFull(Grid grid);
 bool isGameOver(Grid grid);
+Grid switchPlayer(Grid grid);
 
 #endif //TIC_TAC_TOC_GRID_H
